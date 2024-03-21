@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+// A Wrapper on Spring Security Authentication class.
 public class JwtAuthenticationToken extends AbstractAuthenticationToken
 {
 
@@ -40,11 +41,4 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken
         return principal;
     }
 
-    @Override
-    public String toString()
-    {
-        return "JwtAuthenticationToken{" +
-                "principal=" + ((CurrentUser)principal ).getUsername()+
-                '}';
-    }
 }

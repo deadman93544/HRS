@@ -25,10 +25,10 @@ public class RateLimitFilter extends GenericFilterBean
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
     @Value("${hrs.auth.apiprefix}")
-    private String apiprefix;
+    private String apiprefix;                          // A Prefix which is used as starting endpoint of all Authorized APIs
 
     @Value("${hrs.auth.persec_limit}")
-    private int perseclimit;
+    private int perseclimit;                           // Persec limit on the APIs (customizable) to prevent DOS Attack.
 
     private RateLimiter limit;
 
@@ -44,10 +44,12 @@ public class RateLimitFilter extends GenericFilterBean
         HttpServletRequest req = (HttpServletRequest) request;
         if (!req.getRequestURI().startsWith(apiprefix))
         {
+//            The URI does not contains the Prefix for Authorized Endpoint, Passing them.
             chain.doFilter(request, response);
             return;
         }
 
+//        Fetching the Authentication from Spring Security Context set by previous layers.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null)
@@ -59,6 +61,8 @@ public class RateLimitFilter extends GenericFilterBean
         {
             HRSUser user = ((CurrentUser) authentication.getPrincipal()).getUser();
 
+//            Checking the API Rate limit.
+//            This can be helpful in creating an alert to the stakeholders to level up the resources.
             if (!limit.tryAcquire(1, TimeUnit.SECONDS))
             {
                 logger.warn("Who is trying to mug us? {} ", user.getEmail());

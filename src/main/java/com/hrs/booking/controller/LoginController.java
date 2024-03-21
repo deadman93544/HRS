@@ -21,6 +21,8 @@ import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 
+//API Controller class to handle Login
+// This controller has no Endpoint prefix as "/api" as other controllers as this one is Public
 @RestController
 public class LoginController {
 
@@ -42,10 +44,11 @@ public class LoginController {
         this.key = Keys.hmacShaKeyFor(secretkey.getBytes());
     }
 
-
+    //    API Endpoint to Login
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest login, HttpServletRequest request) {
 
+//        Checking User Credentials
         HRSUser user = userService.validateLogin(login, request.getRemoteAddr());
 
         if (user == null) {
@@ -54,6 +57,7 @@ public class LoginController {
 
         LoginResponse loginResponse = new LoginResponse();
 
+//        Creating User Authentication Token on successful verification.
         String authToken = Jwts.builder()
                 .setSubject(login.getEmail() == null ? login.getUsername() : login.getEmail())
                 .setIssuedAt(new Date())

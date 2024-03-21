@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 
+//The Hotel class represents a hotel entity within a booking application, extending the BaseEntity
 @Getter
 @Setter
 @Entity

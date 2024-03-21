@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+// JPA Repository Interface for Rooms
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
+
+    //    JPA Method to get a Room by UUID.
     Optional<Room> findByUuid(String uid);
 
+    //    JPA Method to Page of Rooms which lies in the provided hotel List.
     Page<Room> findAllByHotelIn(List<Hotel> hotels, Pageable paging);
 }

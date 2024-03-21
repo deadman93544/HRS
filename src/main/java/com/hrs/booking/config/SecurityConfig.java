@@ -31,6 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+//        All the configurations related to an API call lifecycle before reaching the Controllers is defined here.
+//        Configuring Cross-Origin Resource Sharing (CORS) policy, Disabling CSRF (Cross-Site Request Forgery) protection
+//        Disabling HTTP Basic authentication, Denying OPTIONS method, Setting session management strategy as STATELESS,
+//        Adding Custom Filters - JwtFilter and RateLimitFilter.
         http
                 .cors().and()
                 .csrf().disable()

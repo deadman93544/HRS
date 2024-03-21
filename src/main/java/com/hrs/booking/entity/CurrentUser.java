@@ -3,6 +3,8 @@ package com.hrs.booking.entity;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
+//By extending the User class from Spring Security, CurrentUser inherits fields and methods related to security,
+// such as username, password, and authorities (roles).
 public class CurrentUser extends User {
 
     private HRSUser user;

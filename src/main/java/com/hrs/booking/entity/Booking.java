@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
+//The Booking class represents a booking entity within a hotel booking system. It includes properties to describe the booking details
 @Getter
 @Setter
 @Entity

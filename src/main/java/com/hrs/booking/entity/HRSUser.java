@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+//The HRSUser class represents a user entity in booking application
 @Entity
 @Getter
 @Setter

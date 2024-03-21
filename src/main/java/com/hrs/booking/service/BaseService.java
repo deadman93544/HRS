@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class BaseService {
 
+//    Method to get an Instance of CurrentUser from Spring Security Context
     public static HRSUser getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {

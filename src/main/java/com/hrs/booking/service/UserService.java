@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+// Service class implementing User related Business logic.
 @Service
 public class UserService extends BaseService implements UserDetailsService {
 
@@ -46,6 +47,7 @@ public class UserService extends BaseService implements UserDetailsService {
 
     private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
+//    Creating a Super Admin User with Role TECHADMIN, if not exists.
     public void createTechAdmin() {
         HRSUser techAdmin = userRepository.findByUsername("super_admin");
         if(techAdmin == null){
@@ -60,6 +62,7 @@ public class UserService extends BaseService implements UserDetailsService {
         }
     }
 
+//    Validating the User Login.
     public HRSUser validateLogin(LoginRequest request, String ip) {
 
         HRSUser user;
@@ -80,6 +83,8 @@ public class UserService extends BaseService implements UserDetailsService {
         return null;
     }
 
+//This method is part of a service that implements the UserDetailsService interface from Spring Security,
+// which is a core component in Spring's security framework for handling user information retrieval
     @Override
     public UserDetails loadUserByUsername(String subject) throws UsernameNotFoundException {
         HRSUser user = userRepository.findByEmailOrUsername(subject, subject);
@@ -89,6 +94,7 @@ public class UserService extends BaseService implements UserDetailsService {
         return new CurrentUser(user, new String[]{"ROLE_USER"});
     }
 
+//    Method to create a User.
     public HRSUser createUser(UserRequest request) {
 
         validateUser(request);
@@ -108,6 +114,7 @@ public class UserService extends BaseService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+//    Method to update a user.
     public HRSUser updateUser(UserRequest request) {
 
         validateUser(request);
@@ -123,6 +130,7 @@ public class UserService extends BaseService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+//    Method to validate a request to create or update a User.
     private void validateUser(UserRequest request) {
         if (request.getFirstName().isEmpty()) {
             throw new RuntimeException("First Name is required.");
@@ -139,14 +147,12 @@ public class UserService extends BaseService implements UserDetailsService {
 
     }
 
-    public Set<String> getUserPrivileges(HRSUser user) {
-        return user.getPrivileges();
-    }
-
+//    Method to get a User By UUID.
     public HRSUser getUserDetail(String userId) {
-        return userRepository.findOneByUuid(userId);
+        return userRepository.findByUuid(userId).orElseThrow(RuntimeException::new);
     }
 
+//    Method to Add a Role.
     public Role addRole(RoleRequest request) {
         Role role = roleRepository.findByName(request.getName());
         if (role != null) {
@@ -160,24 +166,24 @@ public class UserService extends BaseService implements UserDetailsService {
         return roleRepository.save(role);
     }
 
+//    Method to update a Role.
     public Role updateRole(RoleRequest request) {
         Role role = roleRepository.findByName(request.getName());
         role = request.toEntity(role);
         role.getPrivileges().clear();
         for (String privilege : request.getPrivileges()) {
             Privilege temp = privilegeRepository.getOneByName(privilege);
-//            if (!validateRoleSaveAccess(role, temp)){
-//                throw new ValidationException("You don't have access to update this Role!");
-//            }
             role.addPrivilege(temp);
         }
         return roleRepository.save(role);
     }
 
+//    Method to Get a Role By UUID.
     public Role getRole(String roleId) {
         return roleRepository.findOneByUuid(roleId);
     }
 
+//    Method to Update Password
     public void updatePassword(UserRequest request) {
         validatePassword(request.getPassword());
         Optional<HRSUser> opUser = userRepository.findByUuid(request.getId());
@@ -192,6 +198,7 @@ public class UserService extends BaseService implements UserDetailsService {
         }
     }
 
+//    Method to Validate Password Criteria
     private boolean validatePassword (String password) {
         Pattern passwordPattern = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,10}$");
         if (password.isEmpty() || !passwordPattern.matcher(password).matches()) {

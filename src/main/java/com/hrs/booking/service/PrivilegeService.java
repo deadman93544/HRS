@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+// Service class implementing Privilege related Business logic.
 @Service
 public class PrivilegeService extends BaseService
 {
@@ -28,6 +29,7 @@ public class PrivilegeService extends BaseService
     @Autowired
     private UserService userService;
 
+//    Method to create a default TECHADMIN Role and saving the Privileges to the DB, if not exists.
     @PostConstruct
     public void init()
     {

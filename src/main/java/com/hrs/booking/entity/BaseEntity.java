@@ -11,13 +11,16 @@ import java.util.UUID;
 
 import static com.hrs.booking.service.BaseService.getCurrentUser;
 
+//This BaseEntity class extends the LazyAuditable class and adds additional fields and auditing behavior
 @MappedSuperclass
 @Getter
 @Setter
 public abstract class BaseEntity extends LazyAuditable<HRSUser, Long> {
 
+    //    Represents a unique identifier for the entity
     private String uuid;
 
+    //    executed before the entity is persisted to the database
     @PrePersist
     private void preCreate() {
         this.setUuid(UUID.randomUUID().toString());
@@ -33,6 +36,7 @@ public abstract class BaseEntity extends LazyAuditable<HRSUser, Long> {
         return uuid.toString();
     }
 
+    //    executed before the entity is updated in the database
     @PreUpdate
     private void preUpdate() {
         this.setLastModifiedDate(LocalDateTime.now());

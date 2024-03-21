@@ -13,18 +13,21 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// Service class implementing Hotel related Business logic.
 @Service
 public class HotelService extends BaseService{
 
     @Autowired
     private HotelRepository hotelRepository;
 
+//    Method to create a new Hotel.
     public Hotel createHotel(HotelRequest request) {
         Hotel hotel = new Hotel();
         hotel.setValues(request);
         return hotelRepository.saveAndFlush(hotel);
     }
 
+//    Method to Update a Hotel.
     public Hotel updateHotel(HotelRequest request) {
         if (request.getUid() != null) {
             Optional<Hotel> optionalHotel = hotelRepository.findByUuid(request.getUid());
@@ -40,6 +43,7 @@ public class HotelService extends BaseService{
         }
     }
 
+//    Method to fetch a Page of Hotels wrapped inside a PageResponse class.
     public PageResponse<HotelResponse> getAllHotels(Pageable paging, String searchKey) {
         Page<Hotel> hotels;
 
@@ -58,6 +62,7 @@ public class HotelService extends BaseService{
         return pageResponse;
     }
 
+//    Method to get details of a Hotel by UUID.
     public Hotel getHotelDetails(String id) {
         Optional<Hotel> opHotel = hotelRepository.findByUuid(id);
         if(opHotel.isPresent()){

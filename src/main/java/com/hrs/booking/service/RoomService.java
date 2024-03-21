@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// Service class implementing Hotel Room related Business logic.
 @Service
 public class RoomService extends BaseService{
 
@@ -25,6 +26,7 @@ public class RoomService extends BaseService{
     @Autowired
     private HotelRepository hotelRepository;
 
+//    Method to create a new Hotel Room.
     public Room createRoom(RoomRequest request) {
         Room room = new Room();
         room.setValues(request);
@@ -34,6 +36,7 @@ public class RoomService extends BaseService{
         return roomRepository.saveAndFlush(room);
     }
 
+//    Method to update a Hotel Room
     public Room updateRoom(RoomRequest request) {
         if (request.getUid() != null) {
             Optional<Room> optRoom = roomRepository.findByUuid(request.getUid());
@@ -49,6 +52,7 @@ public class RoomService extends BaseService{
         }
     }
 
+//    Method to Get a Page of Rooms wrapped inside a PageResponse class
     public PageResponse<RoomResponse> getAllRooms(Pageable paging, String searchKey) {
         Page<Room> rooms;
 
@@ -68,6 +72,7 @@ public class RoomService extends BaseService{
         return pageResponse;
     }
 
+//    Method to get Details of a Room using UUID.
     public Room getRoomDetails(String id) {
         Optional<Room> opRoom = roomRepository.findByUuid(id);
         if(opRoom.isPresent()){
