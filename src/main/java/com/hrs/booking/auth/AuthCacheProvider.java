@@ -6,6 +6,8 @@ import lombok.Getter;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+
+// Cache to store User Authentication for faster Login and API calling
 @Component
 @Getter
 public class AuthCacheProvider {

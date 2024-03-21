@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import static com.hrs.booking.auth.HRSAuthorisations.Privileges.BOOKING_READ;
 import static com.hrs.booking.auth.HRSAuthorisations.Privileges.BOOKING_WRITE;
 
+//API Controller class to handle endpoints related to Booking
+
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
@@ -22,18 +24,21 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+    //    API Endpoint to create a booking
     @PostMapping
     @Secured(BOOKING_WRITE)
     public BookingResponse createBooking(@RequestBody BookingRequest request){
         return new BookingResponse(bookingService.createBooking(request));
     }
 
+    //    API Endpoint to Get Booking By Id
     @GetMapping
     @Secured(BOOKING_READ)
     public BookingResponse getBookingById(@RequestParam String id){
         return new BookingResponse(bookingService.getBookingById(id));
     }
 
+    //    API Endpoint to Get All the bookings
     @GetMapping("/list")
     @Secured(BOOKING_READ)
     public PageResponse<BookingResponse> getAllBookingsForUser(
@@ -44,6 +49,7 @@ public class BookingController {
         return bookingService.getAllBookingsForUser(paging);
     }
 
+    //    API Endpoint to Cancel the booking...
     @PutMapping("/cancel")
     @Secured(BOOKING_WRITE)
     public void cancelBooking(@RequestParam String id){

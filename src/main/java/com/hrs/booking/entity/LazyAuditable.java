@@ -11,22 +11,30 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
+//This code defines a LazyAuditable abstract class annotated with @MappedSuperclass,
+// This class serves as a base class for entities that require auditing functionality
+//AbstractPersistable is a Spring Data JPA class that provides default implementation for entity identifiers
+//Auditable is a custom interface providing auditing functionality.
 @MappedSuperclass
 public abstract class LazyAuditable<U, PK extends Serializable> extends AbstractPersistable<PK> implements
         Auditable<U, PK, LocalDateTime> {
 
+    //    value of the Authenticated User who calls API to create the entity.
     @ManyToOne(fetch = FetchType.LAZY)
     private @Nullable
     U createdBy;
 
+    //    value of the Date at the entity was created.
     @Temporal(TemporalType.TIMESTAMP)
     private @Nullable
     Date createdDate;
 
+    //    value of the Authenticated User who calls API to update the entity.
     @ManyToOne(fetch = FetchType.LAZY)
     private @Nullable
     U lastModifiedBy;
 
+    //    value of the Date at the entity was updated.
     @Temporal(TemporalType.TIMESTAMP)
     private @Nullable
     Date lastModifiedDate;

@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+//The Role class in this context is designed as an entity to manage user roles within a booking application, for managing access control.
+// Each Role can be assigned a set of Privileges, indicating the actions or access levels that users with this role are permitted to have.
 @Entity
 @Getter
 @Setter

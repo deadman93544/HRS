@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.stream.Collectors;
 
+// Service class implementing Booking related Business logic.
 @Service
 public class BookingService extends BaseService{
 
@@ -26,6 +27,7 @@ public class BookingService extends BaseService{
     @Autowired
     private RoomRepository roomRepository;
 
+//    Method to create a new Booking.
     public Booking createBooking(BookingRequest request) {
         Booking booking = new Booking();
         booking.setValues(request);
@@ -41,6 +43,7 @@ public class BookingService extends BaseService{
         return bookingRepository.saveAndFlush(booking);
     }
 
+//    Method to get a Page of Bookings of the Authenticated User wrapped in a PageResponse class.
     public PageResponse<BookingResponse> getAllBookingsForUser(Pageable paging) {
         HRSUser user = getCurrentUser();
 
@@ -55,6 +58,7 @@ public class BookingService extends BaseService{
         return pageResponse;
     }
 
+//    Method to get a Booking By Id.
     public Booking getBookingById(String id) {
         Booking booking = bookingRepository.findByUuid(id).orElseThrow(() -> new EntityNotFoundException("Room not found"));
         if(!booking.getCreatedBy().get().getUuid().equals(getCurrentUser().getUuid())){
@@ -64,6 +68,7 @@ public class BookingService extends BaseService{
 
     }
 
+//    Method to cancel a Booking.
     public void cancelBooking(String id) {
         Booking booking = getBookingById(id);
         boolean confirmed = booking.getBookingStatus().equals(BookingStatus.CONFIRMED.toString());
